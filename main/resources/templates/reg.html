@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Регистрация</title>
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card shadow-lg o-hidden border-0 my-5">
+                <div class="card-body p-0">
+                    <div class="p-5">
+
+                        <div class="text-center">
+                            <h4 class="text-dark mb-4">Регистрация</h4>
+                        </div>
+
+                        <div th:if="${message}" class="alert alert-warning text-center" role="alert">
+                            <strong th:text="${message}"></strong>
+                        </div>
+
+                        <form action="/reg" method="post">
+                            <div class="mb-3">
+                                <input class="form-control" type="text" placeholder="ФИО" name="fio" required>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="tel" placeholder="Тел. номер (xxx-xx-xxx-xx-xx)"
+                                       name="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}" required>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="email" placeholder="Электронная почта" name="email"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="text" placeholder="Логин" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="password" placeholder="Пароль" name="password"
+                                       required>
+                            </div>
+                            <button class="btn btn-primary w-100" type="submit">Регистрация</button>
+                            <hr>
+                        </form>
+
+                        <a href="/login" class="btn btn-primary w-100" type="submit">Вход</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/theme.js"></script>
+</body>
+
+</html>

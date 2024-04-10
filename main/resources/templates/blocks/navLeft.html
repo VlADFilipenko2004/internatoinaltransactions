@@ -1,0 +1,22 @@
+<nav th:fragment="nav">
+    <div class="container-fluid d-flex flex-column p-0"><a
+            class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+        <div class="sidebar-brand-text mx-3">
+            <span>international<br>transactions</span>
+        </div>
+    </a>
+        <hr class="sidebar-divider my-0">
+        <ul class="navbar-nav text-light" id="accordionSidebar">
+            <li class="nav-item"><a class="nav-link" href="/profile"><span>Профиль</span></a></li>
+            <li th:if="${role == 'ADMIN'}" class="nav-item"><a class="nav-link" href="/users"><span>Пользователи</span></a></li>
+            <li th:if="${role == 'ADMIN'}" class="nav-item"><a class="nav-link" href="/stats"><span>Статистика</span></a></li>
+
+            <li th:if="${role == 'USER'}" class="nav-item"><a class="nav-link" href="/products"><span>Товары</span></a></li>
+
+            <li th:if="${role == 'USER' or role == 'MANAGER'}" class="nav-item"><a class="nav-link" href="/shippings"><span>Международные перевозки</span></a></li>
+            <li th:if="${role == 'USER' or role == 'MANAGER'}" class="nav-item"><a class="nav-link" href="/transactions"><span>Транзакции</span></a></li>
+
+            <li th:if="${role != 'NOT'}" class="nav-item"><a class="nav-link" href="/logout"><span>Выход</span></a></li>
+        </ul>
+    </div>
+</nav>

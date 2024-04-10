@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Blank Page</title>
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body id="page-top">
+
+<div id="wrapper">
+    <div class="p-5" id="content-wrapper">
+        <div class="text-center">
+            <div id="loading">
+                <h1 class="text-primary">Ожидание</h1>
+                <img src="/img/loading.gif">
+            </div>
+            <div id="complete" style="display: none">
+                <h1 class="text-primary">Готово</h1>
+                <img src="/img/complete.jpg">
+                <br>
+                <br>
+                <a href="/transactions" class="btn btn-primary">Вернуться назад</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script th:inline="javascript" type="text/javascript">
+    const random = /*[[${random}]]*/ 0;
+
+    function waiting() {
+        console.log("waiting start");
+        setTimeout(() => {
+            console.log("setTimeout start");
+            console.log(random);
+            document.getElementById("loading").style.display = 'none';
+            document.getElementById("complete").style.display = 'block';
+        }, random * 1000)
+    }
+
+    waiting();
+</script>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+
+</body>
+
+</html>

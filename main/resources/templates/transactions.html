@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Транзакции</title>
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body id="page-top">
+
+<div id="wrapper">
+    <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark"
+         th:insert="blocks/navLeft :: nav"></nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/navTop :: nav"></div>
+            <div class="container-fluid">
+
+                <h3 class="text-dark mb-4">Транзакции</h3>
+
+                <div th:unless="${transactionWaiting.isEmpty()}" class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="text-primary fw-bold m-0">В ожидании</h6>
+                    </div>
+                    <div class="card-body">
+                        <form th:each="i : ${transactionWaiting}" th:action="${'/transactions/' + i.id + '/edit'}"
+                              method="post" class="mb-2">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" readonly class="form-control"
+                                           th:value="${'ИД перевозки: ' + i.shipping.id}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" required name="price" class="form-control" placeholder="Цена"
+                                           min="1" step="1" th:value="${i.price}">
+                                </div>
+                                <div class="col">
+                                    <input type="text" required name="sending" class="form-control"
+                                           placeholder="Место отправки" th:value="${i.sending}">
+                                </div>
+                                <div class="col">
+                                    <input type="text" required name="arrival" class="form-control"
+                                           placeholder="Место прибытия" th:value="${i.arrival}">
+                                </div>
+                                <div th:if="${role == 'MANAGER' and i.price == 0}" class="col-auto">
+                                    <button class="btn btn-primary" type="submit">Обновить</button>
+                                </div>
+                                <div th:if="${role == 'USER' and i.price != 0}" class="col-auto">
+                                    <a th:href="${'/transactions/' + i.id + '/pay'}"
+                                       class="btn btn-primary">Оплатить</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:unless="${transactionCompleted.isEmpty()}" class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="text-primary fw-bold m-0">Завершено</h6>
+                    </div>
+                    <div class="card-body">
+                        <div th:each="i : ${transactionCompleted}" class="row mb-2">
+                            <div class="col">
+                                <input type="text" readonly class="form-control"
+                                       th:value="${'ИД перевозки: ' + i.shipping.id}">
+                            </div>
+                            <div class="col">
+                                <input type="text" readonly class="form-control"
+                                       th:value="${'Дата и время: ' + i.dateAndTime}">
+                            </div>
+                            <div class="col">
+                                <input type="number" required name="price" class="form-control" placeholder="Цена"
+                                       min="1" step="1" th:value="${i.price}">
+                            </div>
+                            <div class="col">
+                                <input type="text" required name="sending" class="form-control"
+                                       placeholder="Место отправки" th:value="${i.sending}">
+                            </div>
+                            <div class="col">
+                                <input type="text" required name="arrival" class="form-control"
+                                       placeholder="Место прибытия" th:value="${i.arrival}">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+
+</body>
+
+</html>

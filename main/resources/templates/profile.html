@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Профиль</title>
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body id="page-top">
+
+<div id="wrapper">
+    <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark"
+         th:insert="blocks/navLeft :: nav"></nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/navTop :: nav"></div>
+            <div class="container-fluid">
+
+                <h3 class="text-dark mb-4">Профиль</h3>
+
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center shadow">
+                                <img class="rounded-circle mb-3 mt-4" th:src="${'/img/' + user.photo}" width="160"
+                                     height="160">
+                                <form action="/profile/photo" method="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="file" name="photo" required accept="image/*"
+                                                   class="form-control">
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-primary" type="submit">Обновить</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+
+                        <div class="card shadow mb-3">
+                            <div class="card-body">
+                                <form action="/profile/edit" method="post">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <input class="form-control" type="text" placeholder="ФИО" name="fio"
+                                                   required th:value="${user.fio}">
+                                        </div>
+                                        <div class="col mb-3">
+                                            <input class="form-control" type="tel" required th:value="${user.tel}"
+                                                   placeholder="Тел. номер (xxx-xx-xxx-xx-xx)"
+                                                   name="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+                                        </div>
+                                        <div class="col mb-3">
+                                            <input class="form-control" type="email" placeholder="Электронная почта"
+                                                   name="email" required th:value="${user.email}">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary w-100" type="submit">Обновить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+
+</body>
+
+</html>

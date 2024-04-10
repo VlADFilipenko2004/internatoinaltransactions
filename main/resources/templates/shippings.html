@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Международные перевозки</title>
+</head>
+
+<head th:insert="blocks/head :: head"></head>
+
+<body id="page-top">
+
+<div id="wrapper">
+    <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark"
+         th:insert="blocks/navLeft :: nav"></nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/navTop :: nav"></div>
+            <div class="container-fluid">
+
+                <h3 class="text-dark mb-4">Международные перевозки</h3>
+
+                <div th:if="${role == 'USER'}" class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="text-primary fw-bold m-0">Добавить</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="/shippings/add" method="post">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" required name="country" class="form-control"
+                                           placeholder="Страна">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="datetime-local" required name="dateAndTimeSending"
+                                           class="form-control">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="datetime-local" required name="dateAndTimeArrival"
+                                           class="form-control">
+                                </div>
+                                <div class="col-auto">
+                                    <select name="type" class="form-select" required>
+                                        <option th:each="i : ${shippingTypes}" th:value="${i}"
+                                                th:label="${i.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select name="productId" class="form-select" required>
+                                        <option th:each="i : ${products}" th:value="${i.id}"
+                                                th:label="${i.name + ' | ' + i.weight + ' кг'}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" type="submit">Добавить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:unless="${shippings.isEmpty()}" class="card shadow mb-4">
+                    <div class="card-body">
+                        <div th:each="shipping : ${shippings}" class="row mb-2">
+                            <div class="col">
+                                <input type="text" readonly class="form-control" th:value="${'ИД: ' + shipping.id}">
+                            </div>
+                            <div class="col">
+                                <input type="text" readonly class="form-control" th:value="${shipping.country}">
+                            </div>
+                            <div class="col-auto">
+                                <input type="datetime-local" readonly class="form-control"
+                                       th:value="${shipping.dateAndTimeSending}">
+                            </div>
+                            <div class="col-auto">
+                                <input type="datetime-local" readonly class="form-control"
+                                       th:value="${shipping.dateAndTimeArrival}">
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" readonly class="form-control" th:value="${shipping.type.name}">
+                            </div>
+                            <div class="col">
+                                <input type="text" readonly class="form-control"
+                                       th:value="${shipping.product.name + ' | ' + shipping.product.weight + ' кг'}">
+                            </div>
+                            <div class="col">
+                                <input type="text" readonly class="form-control" th:value="${shipping.status.name}">
+                            </div>
+                            <div th:if="${role == 'MANAGER' and shipping.status.name() == 'NOT_COMPLETED' and shipping.transaction.status.name() == 'COMPLETED'}"
+                                 class="col-auto">
+                                <a th:href="${'/shippings/' + shipping.id + '/complete'}" class="btn btn-primary">Завершить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+
+</body>
+
+</html>
