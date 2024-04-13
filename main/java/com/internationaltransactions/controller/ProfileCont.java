@@ -26,33 +26,27 @@ public class ProfileCont extends Main {
     }
 
     @PostMapping("/edit")
-    public String editProfile(@RequestParam String fio, @RequestParam String email, @RequestParam String tel) {
+    public String editProfile(Model model, @RequestParam String fio, @RequestParam String email, @RequestParam String tel, @RequestParam MultipartFile photo) {
         AppUser user = getUser();
         user.setFio(fio);
         user.setTel(tel);
         user.setEmail(email);
-        userRepo.save(user);
-        return "redirect:/index";
-    }
 
-    @PostMapping("/photo")
-    public String photoProfile(Model model, @RequestParam MultipartFile photo) {
-        String resultPhoto = "";
         try {
             if (photo != null && !Objects.requireNonNull(photo.getOriginalFilename()).isEmpty()) {
                 String uuidFile = UUID.randomUUID().toString();
                 File uploadDir = new File(uploadImg);
                 if (!uploadDir.exists()) uploadDir.mkdir();
-                resultPhoto = "user/" + uuidFile + "_" + photo.getOriginalFilename();
+                String resultPhoto = "user/" + uuidFile + "_" + photo.getOriginalFilename();
                 photo.transferTo(new File(uploadImg + "/" + resultPhoto));
+                user.setPhoto(resultPhoto);
             }
         } catch (IOException e) {
             model.addAttribute("message", "Некорректные данные!");
             getCurrentUserAndRole(model);
             return "profile";
         }
-        AppUser user = getUser();
-        user.setPhoto(resultPhoto);
+
         userRepo.save(user);
         return "redirect:/index";
     }
